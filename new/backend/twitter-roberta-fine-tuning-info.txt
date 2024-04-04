@@ -1,0 +1,21 @@
+This fine tuned version of the twitter roberta model works very effectively on news reports!
+Replace MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+Model name to be used: shashanksrinath/News_Sentiment_Analysis
+Fine Tuning Information:
+
+Params:
+    learning_rate: 2e-05
+    train_batch_size: 16
+    eval_batch_size: 16
+    seed: 42
+    optimizer: Adam with betas=(0.9,0.999) and epsilon=1e-08
+    lr_scheduler_type: linear
+    num_epochs: 3
+        - note that number of epochs can be increased if not satisfied with the current model. It'll just take longer training time
+
+
+Framework versions:
+    Transformers 4.21.0
+    Pytorch 1.12.0+cu113
+    Datasets 2.4.0
+    Tokenizers 0.12.1

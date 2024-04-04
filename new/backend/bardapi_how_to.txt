@@ -1,0 +1,35 @@
+The bard api access is gimmicky at best in its current state
+
+Official access to the api is waitlisted (can maybe ask if we could get priority access)
+
+There is an unofficial github repo that lets you access Bard
+
+https://github.com/dsdanielpark/Bard-API
+
+It uses a cookie value that is associated with your Google Account, this cookie value changes every once in a while
+
+thus to test this out locally here are the steps to follow
+
+1. use pip to install bardapi, run the following command
+
+    pip install bardapi
+
+2. (this will be changed to use environmental variable or maybe an automatic cookie scraper) 
+the token hardcoded is likely to have expired since the last time someone tried using it
+
+you need to log into https://bard.google.com/
+
+press F12 to pull up developer menu, go to cookies and copy the cookie value for the one named "__Secure-1PSID"
+
+into the token parameter of the call to instantiate Bard
+
+bard = Bard(token='your token here')
+
+then it should work, if it doesn't work the first time, try clearing your cookies and logging back into Bard,
+sometimes the cookie will have changed
+
+This is the error I was getting when the cookie had expired:
+
+Exception: SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'.
+
+

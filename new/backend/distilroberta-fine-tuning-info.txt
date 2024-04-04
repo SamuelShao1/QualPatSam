@@ -1,0 +1,25 @@
+This fine tuned version of the twitter roberta model works very effectively on financial news!
+Replace model='distilroberta-base'
+Model name to be used: mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis
+Fine Tuning Information:
+
+Loss: 0.1116
+Accuracy: 0.9823
+
+
+Params:
+    learning_rate: 2e-05
+    train_batch_size: 8
+    eval_batch_size: 8
+    seed: 42
+    optimizer: Adam with betas=(0.9,0.999) and epsilon=1e-08
+    lr_scheduler_type: linear
+    num_epochs: 5
+        - note that number of epochs can be increased if not satisfied with the current model. It'll just take longer training time
+
+
+Framework versions:
+    Transformers 4.10.2
+    Pytorch 1.9.0+cu102
+    Datasets 1.12.1
+    Tokenizers 0.10.3

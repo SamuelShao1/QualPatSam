@@ -1,0 +1,61 @@
+EXAMPLE 1 RESPONSE:
+The overall sentiment of the video transcript is **neutral**, with some negative undertones.
+
+The speakers start out with a casual greeting and exchange pleasantries. Sally then makes a joke about shaving her brother's cat, which Jane finds humorous. The mood of the conversation changes when Sally mentions that John is dead. Jane reacts with sadness, but Ryan does not seem to be as affected.
+
+The transcript ends abruptly, so it is difficult to say what the speakers' overall reaction to John's death is. However, the fact that Sally jokes about a serious matter and that Ryan does not seem to be very upset suggests that the speakers may not have been very close to John.
+
+Here is a more detailed breakdown of the sentiment of each line in the transcript:
+
+* Line 1: Neutral
+* Line 2: Neutral
+* Line 3: Positive
+* Line 4: Positive
+* Line 5: Neutral
+* Line 6: Neutral
+* Line 7: Negative
+* Line 8: Negative
+
+Overall, the transcript suggests that the speakers are casual acquaintances and that they are not very close to John.
+
+EXAMPLE 2 RESPONSE:
+The overall sentiment of the video transcript is **mixed**, with some positive and negative undertones.
+
+Jill is excited and happy about winning the lottery, but Jack is skeptical and believes that it will bring her more problems than happiness. Joe is initially neutral, but he sides with Jill when she asks Jack why he can't be happy for her.
+
+The transcript ends with Jack apologizing and congratulating Jill, but it is unclear whether he is genuinely happy for her or if he is simply trying to placate her.
+
+Here is a more detailed breakdown of the sentiment of each line in the transcript:
+
+* Line 1: Positive
+* Line 2: Positive
+* Line 3: Positive
+* Line 4: Negative
+* Line 5: Neutral
+* Line 6: Negative
+* Line 7: Positive
+* Line 8: Mixed
+
+Overall, the transcript suggests that Jill is happy and excited about winning the lottery, but Jack is skeptical and believes that it will bring her more problems than happiness. Joe is initially neutral, but he sides with Jill when she asks Jack why he can't be happy for her.
+
+It is difficult to say definitively whether the overall sentiment of the transcript is positive or negative, as it depends on the viewer's perspective. Some viewers may focus on Jill's happiness and excitement, while others may focus on Jack's skepticism and warnings.
+
+EXAMPLE 3 RESPONSE:
+The overall sentiment of the video transcript is **negative**, with some positive undertones.
+
+Blue is upset and disappointed about getting fired, but Red and Green are supportive and offer to help. The transcript ends with Blue thanking Green for his help, which suggests that Blue is starting to feel more hopeful.
+
+Here is a more detailed breakdown of the sentiment of each line in the transcript:
+
+* Line 1: Positive
+* Line 2: Negative
+* Line 3: Neutral
+* Line 4: Negative
+* Line 5: Negative
+* Line 6: Positive
+* Line 7: Positive
+* Line 8: Positive
+
+Overall, the transcript suggests that Blue is feeling down about getting fired, but that he is starting to feel more hopeful thanks to the support of his friends.
+
+It is important to note that sentiment analysis is a complex task and that the results can be subjective. The sentiment of a transcript can also change depending on the context and the viewer's perspective.
