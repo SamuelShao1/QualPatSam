@@ -5,21 +5,24 @@ import { isMobile } from 'react-device-detect';
 import Mobile from './pages/utilityPages/Mobile';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, Switc, useLocation } from 'react-router-dom';
 import NotFound from './pages/utilityPages/NotFound';
+import { AuthProvider } from './context/AuthContext'; 
 
 const App = () => {
   return (
-    <Router>
-      {isMobile ? (
-        <Mobile />
-      ) : (
-        <>
-          <Nav />
-          <Routes>
-            <Route path="/*" element={<Main />} />
-          </Routes>
-        </>
-      )}
-    </Router>
+    <AuthProvider>
+      <Router>
+        {isMobile ? (
+          <Mobile />
+        ) : (
+          <>
+            <Nav />
+            <Routes>
+              <Route path="/*" element={<Main />} />
+            </Routes>
+          </>
+        )}
+      </Router>
+    </AuthProvider>
   )
 }
 

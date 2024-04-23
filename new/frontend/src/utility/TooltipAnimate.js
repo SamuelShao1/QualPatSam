@@ -6,11 +6,11 @@ function TooltipAnimate({ children, tooltipContent, animationProps = { mount: { 
     <Tooltip 
       animate={animationProps}
       content={
-        <div className='p-2 bg-white rounded-lg shadow-lg'>
+        <div className='p-2 bg-white rounded-lg shadow-lg relative'>
           <p className='text-s text-brand-300'>{tooltipContent}</p>
         </div>
       }
-      placement="top"
+      placement="bottom"
     >
       {children}
     </Tooltip>

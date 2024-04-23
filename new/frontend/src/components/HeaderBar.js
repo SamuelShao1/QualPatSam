@@ -8,6 +8,7 @@ import { CSVLink } from 'react-csv';
 import '../App.css';
 import '../index.css';
 import '../style.css';
+import { useAuth } from '../context/AuthContext.js';
 
 import {
   Code,
@@ -18,17 +19,22 @@ import {
   Info,
   FolderOpen,
   Rabbit,
+  Check,
 } from 'lucide-react';
 
 const HeaderBar = () => {
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
     return (
         <nav className='mt-[1.25rem] cursor-pointer flex items-center justify-between px-5 py-[0.8rem] text-[1.5rem] font-light text-brand-300'>
           <div className='rounded-xl px-2 hover:bg-brand-200' onClick={() => navigate('/')}>
             <p className='text-bold'>QualPat</p>
           </div>
           <div className='grid h-10 w-10 place-items-center rounded-full bg-brand-100'>
-            <UserRound className='min-w-4 ' size={16} />
+            { currentUser ? 
+              (<Check className='min-w-4 ' size={16} onClick={() => navigate('/entry/profile')} />) : 
+              (<UserRound className='min-w-4 ' size={16} onClick={() => navigate('/entry')} />) 
+            } 
           </div>
         </nav>
     );

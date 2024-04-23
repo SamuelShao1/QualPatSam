@@ -11,6 +11,7 @@ import '../../style.css';
 import HeaderBar from '../../components/HeaderBar.js';
 import TooltipAnimate from '../../utility/TooltipAnimate.js';
 import Loading from '../utilityPages/Loading.js';
+import { Disclosure, Transition } from '@headlessui/react'
 
 import {
   Code,
@@ -22,6 +23,7 @@ import {
   FolderOpen,
   Rabbit,
   Circle,
+  ChevronUp,
 } from 'lucide-react';
 import ProjectBar from '../../components/ProjectBar.js';
 import EditableTitle from '../../utility/EditableTitle.js';
@@ -37,13 +39,14 @@ const Results = () => {
     { label: 'Help Desk', Icon: Lightbulb, path: '/help-desk' },
   ];
 
-    const location = useLocation();
+  const location = useLocation();
   const apiResults = location.state?.apiResults || [];
   const peopleQuestions = location.state?.peopleQuestions || [];
   const peopleActualQuestions = location.state?.peopleActualQuestions || [];
   let sentiment = [];
   let topics = [];
   let totalcount = [];
+  
 
   let sentimentTally = [0, 0, 0]; // 0 for Positive, 1 for Neutral, 2 for Negative
 
@@ -178,9 +181,46 @@ const Results = () => {
   const generateTables = () => {
     return apiResults.map((personResults, index) => {
       const [personName, ...questions] = peopleActualQuestions[index];
-      return createTableForPerson(personName, questions, personResults);
+      let topicsFrequency = {};
+      let sentimentFrequency = { 'Positive': 0, 'Neutral': 0, 'Negative': 0 };
+      let totalWordCount = 0;
+      let questionDetails = questions.map((question, idx) => {
+        const analysisString = personResults[idx + 1];
+        const data = extractData(analysisString);
+        if (data) {
+          processSentiment(data);
+          topicsFrequency[data.highestTopic] = (topicsFrequency[data.highestTopic] || 0) + 1;
+          totalWordCount += data.wordCount;
+          return {
+            question,
+            topicsString: data.topicsString,
+            sentiment: determineSentiment(data.scores),
+            wordCount: data.wordCount
+          };
+        }
+        return {
+          question,
+          topicsString: 'Error: Analysis data is not available',
+          sentiment: 'Error',
+          wordCount: 0
+        };
+      });
+  
+      const sentimentCounts = {
+        Positive: sentimentTally[0],
+        Neutral: sentimentTally[1],
+        Negative: sentimentTally[2]
+      };
+  
+      return {
+        personName,
+        questionDetails,
+        totalWordCount,
+        sentimentCounts
+      };
     });
   };
+  
 
   const tables = generateTables();
 
@@ -205,9 +245,6 @@ const Results = () => {
     ],
   };
 
-  console.log(sentiment);
-  console.log(topics);
-  console.log(totalcount);
 
   const prepareCSVData = () => {
     let questions = peopleActualQuestions.toString().split(',')
@@ -222,56 +259,139 @@ const Results = () => {
         totalcount[i],
       ];
       csvData.push(row.join(','));
-      console.log(csvData);
     }
 
     return csvData.toString();
   };
 
+  const tablesData = generateTables();
 
-    return (
-      <div className=' w-full h-full'>   
+  function judgeResponse (sentimentCounts) {
+    let totalcount = sentimentCounts.Positive + sentimentCounts.Neutral + sentimentCounts.Negative;
+    let positiveRatio = sentimentCounts.Positive / totalcount;
+    let neutralRatio = sentimentCounts.Neutral / totalcount;
+    let negativeRatio = sentimentCounts.Negative / totalcount;
+    let judgement = "Error."
+    let ratio =
+    console.log("pos", positiveRatio);
+    if (positiveRatio > .50) {
+      if  (positiveRatio > .8) {
+        judgement = (<div className='bg-green-400 mx-1 p-1 px-2 text-xs rounded-full'>Very Positive</div>);
+        ratio = (<div className='bg-green-400 mx-1 p-1 px-2 text-xs rounded-full'>+{(positiveRatio * 100).toFixed(0)}%</div>);
+      } else if (positiveRatio + negativeRatio > 0.7){
+        judgement = (<div className='bg-green-100 mx-1 p-1 px-2 text-xs rounded-full'>Slightly Positive</div>);
+        ratio = (<div className='bg-green-100 mx-1 p-1 px-2 text-xs rounded-full'>+{(positiveRatio * 100).toFixed(0)}%</div>);
+      } else {
+        judgement = (<div className='bg-green-200 mx-1 p-1 px-2 text-xs rounded-full'>More Positive</div>);
+        ratio = (<div className='bg-green-200 mx-1 p-1 px-2 text-xs rounded-full'>+{(positiveRatio * 100).toFixed(0)}%</div>);
+      }
+    } else if (neutralRatio > .50) {
+      judgement = (<div className='bg-yellow-200 mx-1 p-1 px-2 text-xs rounded-full'>Neutral</div>);
+      ratio = (<div className='bg-green-200 mx-1 p-1 px-2 text-xs rounded-full'>{(neutralRatio * 100).toFixed(0)}%</div>);
+    } else if (negativeRatio > .50) {
+      if  (negativeRatio > .8) {
+        judgement = (<div className='bg-red-400 mx-1 p-1 px-2 text-xs rounded-full'>Very Negative</div>);
+        ratio = (<div className='bg-red-400 mx-1 p-1 px-2 text-xs rounded-full'>-{(negativeRatio * 100).toFixed(0)}%</div>);
+      } else if (positiveRatio + negativeRatio > 0.7){
+        judgement = (<div className='bg-red-100 mx-1 p-1 px-2 text-xs rounded-full'>Slightly Negative</div>);
+        ratio = (<div className='bg-red-100 mx-1 p-1 px-2 text-xs rounded-full'>-{(negativeRatio * 100).toFixed(0)}%</div>);
+      } else {
+        judgement = (<div className='bg-red-200 mx-1 p-1 px-2 text-xs rounded-full'>More Negative</div>);
+        ratio = (<div className='bg-red-200 mx-1 p-1 px-2 text-xs rounded-full'>-{(negativeRatio * 100).toFixed(0)}%</div>);
+      }
+    } else {
+      judgement = (<div className='bg-gray-200 mx-1 p-1 px-2 text-xs rounded-full'>Mixed</div>);
+      ratio = (<div className='bg-gray-200 mx-1 p-1 px-2 text-xs rounded-full'>NA%</div>);
+    }
 
-          <div className='h-screen flex'>
-            <div className=' w-full h-full'>   
-              <div className=' font-medium'>
-                  <p className=''>
-                      <p className='text-brand-250 text-2xl'>
-                          Results
-                      </p>
-                  </p>
-              </div>
-              
-              <div>
-                <div className='left'>
-                  <button className="button-style" type="button">
-                    <Link to="/uploadFile">Back</Link>
-                  </button>
-                </div>
-                <div className="right">
-                  <button className="button-style" type="button">
-                    <Link to="/history">History</Link>
-                  </button>
-                </div>
-                <div className="right">
-                  <CSVLink className="button-style" filename="analysis_results.csv" data={prepareCSVData()}>
-                    Export to CSV
-                  </CSVLink>
-                </div>
+    return [judgement, ratio];
+
+  }
+
+  return (
+    <div className='w-screen h-screen'>
+      <div className='grid grid-cols-[3fr_2fr] gap-[2vh] py-[2vh] h-[1fr]'>
+        <div className='flex flex-col border rounded-xl p-[2vh]'>
+          <div className="overflow-auto flex-grow bg-white rounded-xl p-[1vh]">
+            <h className="m-2 text-brand-300">Responses</h>
+            {tablesData.map((table, index) => (
+              <div className='flex-col mb-2 rounded-xl shadow-sm border items-center' key={index}>
                 
-                <div className="results-container">{generateTables()}</div>
-                <div className="center-hor w-[50rem]">
-                  <Doughnut data={data} />
-                </div>
-                <div style={{ height: 310 }}></div>
+                <Disclosure>
+                    {({ open }) => (
+                <>
+                  <Disclosure.Button className="items-center flex justify-between py-1.5 w-full rounded-full text-left px-5 text-brand-300">
+                    <span className='text-sm'>{table.personName}</span>
 
+                    <div className='flex items-center'>
+                      <span>{judgeResponse(table.sentimentCounts)[0]}</span>
+                      <span>{judgeResponse(table.sentimentCounts)[1]}</span>
+                      <span className='text-xs bg-brand-200 flex items-center rounded-full p-1 px-2 mx-2'>{table.totalWordCount} words</span>
+
+                      <ChevronUp
+                        className={`${
+                          open ? 'rotate-180 transform ' : ''
+                        } h-5 w-5 text-brand-blue`}
+                      />
+                    </div>
+                  </Disclosure.Button>
+                  <Transition
+                    show={open}
+                    enter="transition duration-300 ease-out"
+                    enterFrom="transform scale-y-0 opacity-0"
+                    enterTo="transform scale-y-100 opacity-100"
+                    leave="transition duration-150 ease-in"
+                    leaveFrom="transform scale-y-100 opacity-100"
+                    leaveTo="transform scale-y-0 opacity-0"
+                    className="origin-top"
+                  >
+                    <Disclosure.Panel className="px-4 pb-2 pt-4 text-sm text-gray-500">
+                    <table className="results-table">
+                        <thead>
+                          <tr>
+                            <th>Question</th>
+                            <th>Topics</th>
+                            <th>Sentiment</th>
+                            <th>Word Count</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {table.questionDetails.map((detail, idx) => (
+                            <tr key={idx}>
+                              <td>{detail.question}</td>
+                              <td>{detail.topicsString}</td>
+                              <td>{detail.sentiment}</td>
+                              <td>{detail.wordCount}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <p>Total Word Count: {table.totalWordCount}</p>
+                <p>Sentiment Counts: Positive - {table.sentimentCounts.Positive}, Neutral - {table.sentimentCounts.Neutral}, Negative - {table.sentimentCounts.Negative}</p>
+                  </Disclosure.Panel>
+                  </Transition>
+                  
+                </>
+              )}
+                  
+                </Disclosure>
+                
+                
               </div>
-            </div>
+            ))}
+            
           </div>
+        </div>
+        <div className='flex flex-col rounded-xl border p-[2vh]'>
+          <span className='text-[1rem] text-brand-300'>Insights</span>
+          <div className=' bg-white rounded-3xl p-[3vh] w-[40vh]'><Doughnut data={data} /></div>
+        </div>
       </div>
-
-    );
+      
+    </div>
+  );
 }
+
 
 
 export default Results;

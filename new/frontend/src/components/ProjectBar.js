@@ -12,6 +12,7 @@ import { FaGoogleDrive } from 'react-icons/fa';
 import Construction from '../pages/utilityPages/Construction.js';
 import TooltipAnimate from '../utility/TooltipAnimate.js';
 import { Tooltip, Button } from "@material-tailwind/react";
+import { getAuth } from "firebase/auth";
 
 import {
   Settings,
@@ -24,32 +25,69 @@ import {
   RefreshCwOff,
   Upload,
   UserRound,
+  Pencil,
+  Copy,
+  Archive,
+  Replace,
+  FolderArchive,
+  Maximize2,
+  Users,
+  UserRoundPlus,
+  Globe,
+  Check,
+  User,
+  Trash2
 } from 'lucide-react';
+
+import {Link as LinkIcon } from 'lucide-react';
 import ExpandingMenu from './ExpandingMenu.js';
+import { useAuth } from '../context/AuthContext.js';
+const menuOptionItems = [
+  { icon: Pencil, label: 'Rename' },
+  { icon: Copy, label: 'Duplicate' },
+  { icon: Archive, label: 'Archive' },
+  { icon: Replace, label: 'Move' },
+  { icon: Trash2, label: (<p className='text-red-500'>Delete</p>) },
+
+];
+
+const menuShareItems = [
+  { icon: UserRoundPlus, label: 'Invite' },
+  { icon: LinkIcon, label: 'Share Link' },
+  { icon: Users, label: 'Sharing Access'},
+  { icon: FolderArchive, label: 'Compress and Download'},
+  { icon: Globe, label: 'Publish' },
+]
+
+const menuSettingItems = [
+  { icon: null, label: 'Data Usage' },
+  { icon: null, label: 'Version History' },
+  { icon: null, label: 'Details' },
+  { icon: null, label: 'History' },
+]
+
 //        <CircleEllipsis size={20} className='text-brand-300 w-4 h-4'/> 
 
 const ProjectBar = () => {
     const navigate = useNavigate(); 
     const currentPath = useLocation().pathname;
-    const [tooltipVisible, setTooltipVisible] = useState(false);
-
+    const { currentUser } = useAuth();
+    const auth = getAuth();
+  
     const items = [
       { label: (
-        <div 
-        onMouseEnter={() => setTooltipVisible(true)}
-        onMouseLeave={() => setTooltipVisible(false)}
-    >
-        {tooltipVisible && (
-            <TooltipAnimate tooltipContent="Options">
-                <div/>
-            </TooltipAnimate>
-        )}
-        <ExpandingMenu setTooltipVisible={setTooltipVisible}/>
-    </div>
+          <div className=''>
+              <ExpandingMenu 
+                className="bg-red-900"
+                menuItems={menuOptionItems} 
+                defaultIcon={CircleEllipsis}
+                toolTipMessage={<><Maximize2 className="w-[.7rem]"/><p className='pl-1'>Options </p></>}
+              />
+          </div>
         ), 
         path: null },
       { label: 
-        <TooltipAnimate tooltipContent="Project Dashboard">
+        <TooltipAnimate className="" tooltipContent="Project Dashboard">
         <Home size={20} className='text-brand-300 w-4 h-4'/>
         </TooltipAnimate>, 
         path: '' },
@@ -57,19 +95,30 @@ const ProjectBar = () => {
       { label: 'Results', path: 'results' }, 
       { label: 'Models & Training', path: 'modelsandtraining' }, 
       { label: 'Uploads', path: 'uploads' }, 
-      { label: 
-        <TooltipAnimate tooltipContent="Export as zipped">
-        <Upload size={20} className='text-brand-300 w-4 h-4'/>
-        </TooltipAnimate>, 
-        path: '/construction' },
-      { label: 
-        <TooltipAnimate tooltipContent="Settings">
-        <Settings size={20} className='text-brand-300 w-4 h-4'/>
-        </TooltipAnimate>, 
-        path: '/construction' },
+      { label: (
+        <div className=''>
+            <ExpandingMenu 
+              className=''
+              menuItems={menuShareItems} 
+              defaultIcon={Upload}
+              toolTipMessage={<><Maximize2 className="w-[.7rem]"/><p className='pl-1'>Sharing and Export </p></>}
+            />
+        </div>
+      ),  
+        path: null },
+      { label: (
+        <div className=''>
+            <ExpandingMenu 
+              menuItems={menuSettingItems} 
+              defaultIcon={Settings}
+              toolTipMessage={<><Maximize2 className="w-[.7rem]"/><p className='pl-1'>Project Settings </p></>}
+            />
+        </div>
+      ),  
+        path: null },
     ];
     return (
-      <nav className='cursor-pointer flex items-center justify-between p-5  py-[0.8rem] font-light text-brand-300'>
+      <nav className='relative cursor-pointer flex items-center justify-between p-5  py-[0.8rem] font-light text-brand-300'>
         <div className='rounded-xl px-2 hover:bg-brand-200' onClick={() => navigate('/')}>
           <TooltipAnimate tooltipContent="Back to Start">
             <button className='text-bold text-[1.5rem]'>QualPat</button>
@@ -91,10 +140,12 @@ const ProjectBar = () => {
               </div>
             </div>
             
-            <nav className='max-w-[700px] w-full rounded-full cursor-pointer flex justify-between items-center px-2 py-2 font-light bg-brand-100'>
+            <nav className='relative  max-w-[700px] w-full rounded-full cursor-pointer flex justify-between items-center px-2 py-2 font-light bg-brand-100 '>
               {items.map((item, index) => ( 
                 <div key={index} className={`mx-[10px] rounded-full px-[8px] py-[4px] text-brand-300 ${currentPath === `${"/projectMain/" + item.path}`  ? 'bg-brand-250' : 'hover:bg-brand-200'}`} onClick={() => navigate(item.path)}>
-                  <p className='gradient-underline text-l justify-center'>{item.label}</p>
+                  <span className='relative z-50'>
+                    <span className='gradient-underline text-l justify-center'>{item.label}</span>
+                  </span>
                 </div> 
               ))}
             </nav>
@@ -102,9 +153,9 @@ const ProjectBar = () => {
             <div className='ml-5 w-[100px] h-[35px] rounded-full cursor-pointer flex justify-center items-center px-2 font-light bg-brand-100'>
               <div className='mx-[10px] rounded-full px-[8px] py-[0px] hover:bg-brand-200 justify-center'>
                   <p className='flex items-center group'>
-                    <TooltipAnimate tooltipContent="No running processes.">
-                      <Pause className='text-brand-300 w-4 h-4'/>
-                    </TooltipAnimate>
+                      <TooltipAnimate tooltipContent="No running processes.">
+                        <Pause className='text-brand-300 w-4 h-4'/>
+                      </TooltipAnimate>
                   </p>
               </div>
             </div>
@@ -113,8 +164,33 @@ const ProjectBar = () => {
         </div>
 
         <div className='grid h-10 w-10 place-items-center rounded-full bg-brand-100'>
-          <UserRound className='min-w-4 ' size={16} />
-        </div>
+        <Tooltip 
+          animate={{ mount: { scale: 1, y: 0 }, unmount: { scale: 0, y: 0 } }}
+          content={
+            <div className='bg-brand-100 h-[2rem] w-[8rem] rounded-full shadow-lg'>
+              <span className='text-md flex justify-center text-brand-300'>
+                {currentUser ? 
+                  (
+                    <p className='text-brand-300 text-xs p-2 overflow-hidden whitespace-nowrap overflow-ellipsis'>
+                      Logged in as {auth.currentUser.displayName}
+                    </p>
+                  ) : (
+                    <p className='text-brand-300 overflow-hidden whitespace-nowrap overflow-ellipsis'>
+                      Not logged in.
+                    </p>
+                  )
+                } 
+              </span>
+            </div>
+          }
+          placement="left"
+        >
+          {currentUser ? 
+            (<Check className='min-w-4' size={16} onClick={() => navigate('/entry/profile')} />) : 
+            (<UserRound className='min-w-4' size={16} onClick={() => navigate('/entry')} />) 
+          } 
+        </Tooltip>
+      </div>
       </nav>
   );
 

@@ -28,32 +28,16 @@ const ProjectDash = () => {
     ];
 
     return (
-        <div className=' w-full h-full'>   
+        <div className='relative w-full h-full'>   
             <div className=' font-medium'>
-                <p className=''>
-                    <p className='text-brand-250 text-2xl'>
+                <p className='text-brand-250 text-2xl'>
                         Dashboard
-                    </p>
                 </p>
             </div>
 
 
-
+            <div className='relative overflow-hidden text-xl grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 p-5'>
             
-            
-            <div className='overflow-hidden text-xl grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 p-5'>
-            {items.map(({ label, Icon, path }, idx) => (
-                <div
-                className='group  h-52 cursor-pointer rounded-xl bg-brand-100 p-4 duration-300 hover:bg-brand-200 '
-                key={idx}
-                onClick={() => navigate(path)} // Navigate when clicked
-                >
-                <p className='text-brand-300 gradient-text'>{label}</p>
-                <div className='text-brand-300 absolute bottom-4 right-4 rounded-full bg-white p-2'>
-                    <Icon size={20} />
-                </div>
-                </div>
-            ))}
             </div>
             
         </div>

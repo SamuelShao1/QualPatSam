@@ -45,30 +45,32 @@ const ProjectMain = () => {
 
 
     return (
-    <div className="relative h-screen flex-1 overflow-hidden">
+    <div className="relative h-screen w-screen overflow-y-auto">
       <ProjectBar className='relative z-50'/> 
-      <div className=' pl-7'>
-          <p className='text-brand-400'>
-              <EditableTitle defaultTitle={<span className=' codeFont text-3xl bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
-              Untitled Project
-              </span>}></EditableTitle>
-          </p>
-      </div>
-      
-      
-      
-      <div className='  h-screen flex px-7 overflow-auto z-20'>  {/* Project Pages */}
-        <Routes className='relative z-10'>
-          <Route path="/" element={<ProjectDash />} />
-          <Route path="/newanalysis/*" element={<NewAnalysis />} />
-          <Route path="/results" element={<Results />} />
-          <Route path="/modelsandtraining" element={<ModelsTraining />} />
-          <Route path="/uploads" element={<Uploads />} />
-        </Routes>
+      <div className='relative z-10'>
+        <div className='pl-7 '>
+            <p className='text-brand-400'>
+                <EditableTitle defaultTitle={<span className='codeFont text-3xl bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
+                Untitled Project
+                </span>}></EditableTitle>
+            </p>
+        </div>
+        
+        
+        
+        <div className='relative flex px-7 z-0'>  {/* Project Pages */}
+          
+          <Routes className='relative z-0'>
+            <Route path="/" element={<ProjectDash className=""/>} />
+            <Route path="/newanalysis/*" element={<NewAnalysis />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/modelsandtraining" element={<ModelsTraining />} />
+            <Route path="/uploads" element={<Uploads />} />
+          </Routes>
+        </div>
+        
       </div>
       <VersionClip />
-
-
     </div>
 
     );

@@ -12,7 +12,11 @@ import HeaderBar from '../components/HeaderBar.js';
 import ProjectMain from './projectWorkspace/ProjectMain.js';
 import Construction from './utilityPages/Construction.js';
 import NotFound from './utilityPages/NotFound.js';
-import Loading from './utilityPages/Loading.js'
+import Loading from './utilityPages/Loading.js';
+import Login from '../pages/entry/Login.js';
+import Entry from '../pages/entry/Entry.js';
+import useAuth from '../hooks/useAuth.js';
+import RequireAuth from '../utility/RequireAuth.js'
 import {
   Code,
   Compass,
@@ -23,8 +27,13 @@ import {
   FolderOpen,
   Rabbit,
 } from 'lucide-react';
+import { getAuth } from "firebase/auth";
+
 
 function Home() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  
   const navigate = useNavigate();
 
   const items = [
@@ -33,36 +42,57 @@ function Home() {
     { label: 'Open a Project', Icon: FolderOpen, path: '/open-project' },
     { label: 'Help Desk', Icon: Lightbulb, path: '/help-desk' },
   ];
+  
+  
 
+  const name = () => {
+    if (user && user.displayName) {
+      const firstName = user.displayName.split(" ")[0];
+      return firstName || 'User';
+    } else {
+      return ''
+    }
+  };
   return (
       <div className="relative h-screen flex-1 pb-[15vh] overflow-hidden no-scroll">
-        <HeaderBar className='bg-opacity-0'/>
-
-        <div className='bg-gradient-to-b from-white via-white to-brand-blue h-screen flex items-center justify-center'>
-          <div className='no-scrollbar h-[calc(100vh-5.25rem)] px-[5%] pb-40'>  
-            <div className='my-14 p-5 text-6xl font-medium'>
+        <HeaderBar className=''/>
+        <div className=' h-screen flex items-center justify-center'>
+          <div className='no-scrollbar h-screen pb-40 flex-col items items-center'>  
+          <div className='flex justify-center w-[80vh]'>
+            <div className=' my-[5vh] p-[1vh] text-[6vh] font-medium  w-[50vh]'>
               <p className='text-brand-400'>
-                <span className='bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
-                  Hello, Samuel
+                <span className=' bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
+                  Hello, {name()}
                 </span>
                 <span className='block'>Let's get started.</span>
               </p>
             </div>
-            
-            <div className='overflow-hidden no-scroll text-xl grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 p-5'>
-              {items.map(({ label, Icon, path }, idx) => (
-                <div
-                  className='group relative h-52 cursor-pointer rounded-xl bg-brand-100 p-4 duration-300 hover:bg-brand-200 '
-                  key={idx}
-                  onClick={() => navigate(path)}
-                >
-                  <p className='text-brand-300 gradient-text'>{label}</p>
-                  <div className='text-brand-300 absolute bottom-4 right-4 rounded-full bg-white p-2'>
-                    <Icon size={20} />
+          </div>
+            { user ? 
+              ( <div className='flex justify-center bg-overflow-hidden no-scroll text-[2vh] grid grid-cols-[repeat(auto-fill,minmax(20vh,25vh))] gap-[1vh] p-5 '>
+                {items.map(({ label, Icon, path }, idx) => (
+                  <div
+                    className='group relative h-[23vh] w-[23vh] cursor-pointer rounded-xl bg-brand-100 p-[2vh] duration-300 hover:bg-brand-200 '
+                    key={idx}
+                    onClick={() => navigate(path)}
+                  >
+                    <p className='text-brand-300 gradient-text'>{label}</p>
+                    <div className='text-brand-300 absolute bottom-4 right-4 rounded-full bg-white p-2'>
+                      <Icon style={{ width: '2vh', height: '2vh' }} />
+                    </div>
                   </div>
+                ))}
+                </div>) 
+                : 
+                (
+                <div className='border mx-[7rem] p-3 shadow-md rounded-full flex justify-center hover:bg-brand-200' onClick={() => navigate('/entry')}>
+                  <p className='bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
+                    Sign in to get started
+                  </p>
                 </div>
-              ))}
-            </div>
+              )
+            }
+           
             <div className='absolute bottom-0 left-0 right-0 flex justify-center'>
               <p className='text-brand-300 text-sm rounded-xl bg-brand-200 px-2 -py-2 mb-2 bg-brand-100'> 
                 Version 3.1 Powered by Google
@@ -204,6 +234,7 @@ function Results() {
   };
 
   const createTableForPerson = (personName, questions, personApiResults) => {
+    
     let topicsFrequency = {};
     let sentimentFrequency = {};
     let totalWordCount = 0;
@@ -310,9 +341,6 @@ function Results() {
     ],
   };
 
-  console.log(sentiment);
-  console.log(topics);
-  console.log(totalcount);
 
   const prepareCSVData = () => {
     let questions = peopleActualQuestions.toString().split(',')
@@ -327,7 +355,6 @@ function Results() {
         totalcount[i],
       ];
       csvData.push(row.join(','));
-      console.log(csvData);
     }
 
     return csvData.toString();
@@ -378,6 +405,7 @@ function History() {
   );
 }
 
+/*
 async function loginUser(credentials) {
   return fetch('http://127.0.0.1:5000/login', {
     method: 'POST',
@@ -387,7 +415,7 @@ async function loginUser(credentials) {
     body: JSON.stringify(credentials)
   })
     .then(data => data.json())
-}
+}*/
 
 function useToken() {
   const getToken = () => {
@@ -409,6 +437,7 @@ function useToken() {
   }
 }
 
+/*
 function Login({ setToken }) {
   const { token } = useToken();
   const [username, setUserName] = useState();
@@ -461,7 +490,7 @@ function Login({ setToken }) {
 Login.propTypes = {
   setToken: PropTypes.func.isRequired
 }
-
+*/
 function NavBar() {
   return (
     <nav>
@@ -497,15 +526,13 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function Main() {
   return (
     <Routes>
-      <Route path="/*" element={<Home />} />
-      <Route path="projectMain/*" element={<ProjectMain />} />
-      <Route path="construction" element={<Construction />} />
-      <Route path="/uploadText" element={<UploadText />} />
-      <Route path="/results" element={<Results />} />
-      <Route path="/history" element={<History />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/loading" element={<Loading />} />
+      <Route path="/" element={<Home />} />
+      <Route path="projectMain/*" element={<RequireAuth><ProjectMain /></RequireAuth>} />
+      <Route path="construction" element={<RequireAuth><Construction /></RequireAuth>} />
+      <Route path="entry/*" element={<Entry />} />
+      <Route path="loading" element={<RequireAuth><Loading /></RequireAuth>} />
       <Route path="*" element={<NotFound />} />
+
     </Routes>
   );
 }

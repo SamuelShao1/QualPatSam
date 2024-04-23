@@ -3,10 +3,10 @@ import BackButton from "../../utility/BackButton";
 
 const NotFound = () => {
     return (
-        <div className='mt-[10rem] container x-auto  w-full flex items-center justify-center no-scroll overflow-x-hidden overflow-y-hidden'>
-          <div className='no-scroll h-[calc(100vh-5.25rem)] px-[5%] pb-40'>  
-            <div className='my-14 p-5 text-[10vw] md:text-6xl font-medium'>
-              <span className=' text-brand-400'>
+        <div className=' mt-[10rem] container x-auto  w-screen flex items-center justify-center no-scroll overflow-x-hidden overflow-y-hidden'>
+          <div className='no-scroll h-[calc(100vh-5.25rem)] px-[5%] pb-40 '>  
+            <div className='my-14 p-5 text-[10vw] md:text-[5vh] font-medium'>
+              <span className=' text-brand-400 flex-col justify-center no-scroll '>
                 <span className='flex bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
                   Uh Oh. 
                 </span>
