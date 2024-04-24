@@ -107,16 +107,16 @@ const NewAnalysis = () => {
 
 
     return (
-      <div className=' w-full h-full'>   
+      <div className='w-full'>   
 
           <p className='text-brand-250 text-2xl'>
               New Analysis
           </p>
-          <div className=' h-scren flex px-7'>  {/* Project Pages */}
+          <div className='w-full flex px-7 justify-center items-center '>  {/* Project Pages */}
             <TransitionWrapper location={location}>
               <Routes location={location}>
                 <Route path="/" element={
-                    <div className='w-screen h-screen pt-10'>
+                    <div className=' pt-10'>
                       <div className="buttons" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <form className="text-brand-300 rounded-full flex-row" onSubmit={handleSubmit}>
                           <div className='flex p-1 h-9'> 

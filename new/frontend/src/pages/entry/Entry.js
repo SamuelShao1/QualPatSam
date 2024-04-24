@@ -8,6 +8,8 @@ import SignUp from './SignUp';
 import HeaderBar from "../../components/HeaderBar";
 import '../../App.css';
 import Login from "./Login";
+import { useAuth } from "../../context/AuthContext";
+import { useSpring, animated } from 'react-spring';
 
 const Entry = () => {
     const navigate = useNavigate();
@@ -30,18 +32,20 @@ const Entry = () => {
         e.preventDefault();
         const provider = new GoogleAuthProvider();
         try {
-            console.log("gerwwe");
-
             await signInWithPopup(auth, provider);
             navigate("./profile");
         } catch (error) {
-            console.log("gere");
             setNotice("Failed to sign in with Google: " + error.message);
         }
     };
 
+    const props = useSpring({
+        to: { opacity: 1 },
+        from: { opacity: 0 }
+      });
+
     return(
-    <div className="relative h-screen w-screen pb-[15vh] overflow-hidden no-scroll">
+    <animated.div style={props} className="relative h-screen w-screen pb-[15vh] overflow-hidden no-scroll">
         <HeaderBar className=''/>
         <div className = "h-screen w-screen">
             <div className = "flex items-center justify-center">
@@ -57,7 +61,7 @@ const Entry = () => {
            
 
         
-    </div>
+    </animated.div>
     )
 }
 

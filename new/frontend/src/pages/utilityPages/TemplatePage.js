@@ -8,7 +8,7 @@ import { CSVLink } from 'react-csv';
 import './App.css';
 import '../index.css';
 import '../style.css';
-import HeaderBar from './HeaderBar.js';
+import HeaderBar from '../../components/HeaderBar.js';
 
 import {
   Code,

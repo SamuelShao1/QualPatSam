@@ -11,7 +11,7 @@ const Nav = () => {
     };
 
     return (
-        <div className={`hidden h-screen max-w-60 flex-col justify-between bg-brand-100 px-4 py-6 duration-500 sm:inline-flex ${isExpanded ? 'w-60' : 'w-[4.75rem]'}`}>
+        <div className={`hidden h-screen max-w-60 flex-col justify-between bg-brand-100 px-4 py-6 duration-500 sm:inline-flex ${isExpanded ? 'w-60' : 'w-[6.5vh]'}`}>
             <div>
                 <button
                     onClick={toggleSidebarExpand}

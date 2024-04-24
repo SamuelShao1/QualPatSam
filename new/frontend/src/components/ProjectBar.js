@@ -78,7 +78,7 @@ const ProjectBar = () => {
       { label: (
           <div className=''>
               <ExpandingMenu 
-                className="bg-red-900"
+                className=""
                 menuItems={menuOptionItems} 
                 defaultIcon={CircleEllipsis}
                 toolTipMessage={<><Maximize2 className="w-[.7rem]"/><p className='pl-1'>Options </p></>}
@@ -118,18 +118,18 @@ const ProjectBar = () => {
         path: null },
     ];
     return (
-      <nav className='relative cursor-pointer flex items-center justify-between p-5  py-[0.8rem] font-light text-brand-300'>
+      <nav className='plop-animation relative cursor-pointer flex items-center justify-between p-5  py-[0.2rem] font-light text-brand-300 border shadow-lg m-5 rounded-2xl bg-white bg-opacity-10 backdrop-blur-lg'>
         <div className='rounded-xl px-2 hover:bg-brand-200' onClick={() => navigate('/')}>
           <TooltipAnimate tooltipContent="Back to Start">
             <button className='text-bold text-[1.5rem]'>QualPat</button>
           </TooltipAnimate>
         </div>
 
-        <div className='plop-animation'>
+        <div className=''>
 
           <div className=' w-full m-4 flex  justify-center items-center'>
 
-            <div className='mr-5 w-[100px] h-[35px] rounded-full cursor-pointer flex justify-center items-center px-2 font-light bg-brand-100'>
+            <div className='mr-5 w-[100px] h-[35px] shadow-md rounded-full cursor-pointer flex justify-center items-center px-2 font-light bg-brand-100'>
               <div className='mx-[10px] rounded-full px-[8px] py-[0px] hover:bg-brand-200 justify-center'>
                   <p className='flex items-center group'>
                     <RefreshCwOff color="red" className='text-brand-300 w-4 h-4'/>
@@ -140,7 +140,7 @@ const ProjectBar = () => {
               </div>
             </div>
             
-            <nav className='relative  max-w-[700px] w-full rounded-full cursor-pointer flex justify-between items-center px-2 py-2 font-light bg-brand-100 '>
+            <nav className='relative shadow-md max-w-[700px] w-full rounded-full cursor-pointer flex justify-between items-center px-2 py-2 font-light bg-brand-100 '>
               {items.map((item, index) => ( 
                 <div key={index} className={`mx-[10px] rounded-full px-[8px] py-[4px] text-brand-300 ${currentPath === `${"/projectMain/" + item.path}`  ? 'bg-brand-250' : 'hover:bg-brand-200'}`} onClick={() => navigate(item.path)}>
                   <span className='relative z-50'>
@@ -150,7 +150,7 @@ const ProjectBar = () => {
               ))}
             </nav>
             
-            <div className='ml-5 w-[100px] h-[35px] rounded-full cursor-pointer flex justify-center items-center px-2 font-light bg-brand-100'>
+            <div className='shadow-md ml-5 w-[100px] h-[35px] rounded-full cursor-pointer flex justify-center items-center px-2 font-light bg-brand-100'>
               <div className='mx-[10px] rounded-full px-[8px] py-[0px] hover:bg-brand-200 justify-center'>
                   <p className='flex items-center group'>
                       <TooltipAnimate tooltipContent="No running processes.">
@@ -163,7 +163,7 @@ const ProjectBar = () => {
         
         </div>
 
-        <div className='grid h-10 w-10 place-items-center rounded-full bg-brand-100'>
+        <div className='grid h-10 w-10 place-items-center rounded-full bg-brand-100 shadow-md'>
         <Tooltip 
           animate={{ mount: { scale: 1, y: 0 }, unmount: { scale: 0, y: 0 } }}
           content={

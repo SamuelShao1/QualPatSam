@@ -27,10 +27,10 @@ const HeaderBar = () => {
     const { currentUser } = useAuth();
     return (
         <nav className='mt-[1.25rem] cursor-pointer flex items-center justify-between px-5 py-[0.8rem] text-[1.5rem] font-light text-brand-300'>
-          <div className='rounded-xl px-2 hover:bg-brand-200' onClick={() => navigate('/')}>
-            <p className='text-bold'>QualPat</p>
+          <div className='rounded-xl px-2 hover:bg-white hover:bg-opacity-30' onClick={() => navigate('/')}>
+            <p className='text-bold text-black'>QualPat</p>
           </div>
-          <div className='grid h-10 w-10 place-items-center rounded-full bg-brand-100'>
+          <div className='grid h-10 w-10 place-items-center rounded-full bg-white shadow-lg'>
             { currentUser ? 
               (<Check className='min-w-4 ' size={16} onClick={() => navigate('/entry/profile')} />) : 
               (<UserRound className='min-w-4 ' size={16} onClick={() => navigate('/entry')} />) 

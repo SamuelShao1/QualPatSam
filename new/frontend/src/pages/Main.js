@@ -17,6 +17,8 @@ import Login from '../pages/entry/Login.js';
 import Entry from '../pages/entry/Entry.js';
 import useAuth from '../hooks/useAuth.js';
 import RequireAuth from '../utility/RequireAuth.js'
+import { useSpring, animated } from 'react-spring';
+
 import {
   Code,
   Compass,
@@ -42,7 +44,10 @@ function Home() {
     { label: 'Open a Project', Icon: FolderOpen, path: '/open-project' },
     { label: 'Help Desk', Icon: Lightbulb, path: '/help-desk' },
   ];
-  
+  const props = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 }
+  });
   
 
   const name = () => {
@@ -54,42 +59,70 @@ function Home() {
     }
   };
   return (
-      <div className="relative h-screen flex-1 pb-[15vh] overflow-hidden no-scroll">
+      <animated.div style={props} className="relative h-screen flex-1 pb-[15vh] overflow-hidden no-scroll bg-gradient-to-b from-blue-200 via-white to-white">
         <HeaderBar className=''/>
         <div className=' h-screen flex items-center justify-center'>
-          <div className='no-scrollbar h-screen pb-40 flex-col items items-center'>  
-          <div className='flex justify-center w-[80vh]'>
-            <div className=' my-[5vh] p-[1vh] text-[6vh] font-medium  w-[50vh]'>
-              <p className='text-brand-400'>
-                <span className=' bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
-                  Hello, {name()}
-                </span>
-                <span className='block'>Let's get started.</span>
-              </p>
-            </div>
-          </div>
+          <div className='no-scrollbar h-full pb-40 flex-col items items-center '>  
+          
             { user ? 
-              ( <div className='flex justify-center bg-overflow-hidden no-scroll text-[2vh] grid grid-cols-[repeat(auto-fill,minmax(20vh,25vh))] gap-[1vh] p-5 '>
-                {items.map(({ label, Icon, path }, idx) => (
-                  <div
-                    className='group relative h-[23vh] w-[23vh] cursor-pointer rounded-xl bg-brand-100 p-[2vh] duration-300 hover:bg-brand-200 '
-                    key={idx}
-                    onClick={() => navigate(path)}
-                  >
-                    <p className='text-brand-300 gradient-text'>{label}</p>
-                    <div className='text-brand-300 absolute bottom-4 right-4 rounded-full bg-white p-2'>
-                      <Icon style={{ width: '2vh', height: '2vh' }} />
+              ( 
+                <div className='h-full'>
+                  <div className='flex justify-center items-center w-[80vh]'>
+                    <div className=' my-[5vh] p-[1vh] text-[7vh] font-medium  w-[70vh] '>
+                      <span className='text-black flex justify-center bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
+                        <p className='flex justify-center '>
+                          Hello, 
+                        </p>
+                        <p className='ml-2 flex justify-center '>
+                          {name()}
+                        </p>
+                      </span>
+                      <p className='flex items-center justify-center'>
+                        Let's get started.
+                      </p>
                     </div>
                   </div>
-                ))}
-                </div>) 
+                  <div className='pb-[5vh] flex justify-center bg-overflow-hidden no-scroll text-[2vh] grid grid-cols-[repeat(auto-fill,minmax(20vh,25vh))] gap-[1vh] p-5 '>
+                    {items.map(({ label, Icon, path }, idx) => (
+                        <div
+                          className='group relative h-[23vh] w-[23vh] cursor-pointer rounded-3xl bg-white border shadow-xl p-[2vh] duration-300 hover:bg-brand-100 hover:shadow-blue-100 '
+                          key={idx}
+                          onClick={() => navigate(path)}
+                        >
+                          <p className='text-brand-300 gradient-text'>{label}</p>
+                          <div className='text-brand-300 absolute bottom-4 right-4 rounded-full bg-white border shadow p-2'>
+                            <Icon style={{ width: '2vh', height: '2vh' }} />
+                          </div>
+                        </div>
+                    ))}
+                    </div>
+                </div>
+                ) 
                 : 
                 (
-                <div className='border mx-[7rem] p-3 shadow-md rounded-full flex justify-center hover:bg-brand-200' onClick={() => navigate('/entry')}>
-                  <p className='bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
-                    Sign in to get started
-                  </p>
+                <div className='flex-col justify-center'>
+                    <div className='flex justify-center items-center w-[80vh]'>
+                      <div className=' my-[5vh] p-[1vh] text-[7vh] font-medium  w-[70vh] '>
+                        <span className='text-black flex-col justify-center'>
+                          <p className='flex justify-center bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
+                            Hello
+                          </p>
+                          <p className='flex justify-center'>
+                            Let's get started.
+                          </p>
+                        </span>
+                      </div>
+                    </div>
+                    <div className='flex justify-center'>
+                      <div className=' hover:text-white hover:bg-gradient-to-br hover:from-[#1b8f53] hover:via-[#4285f4] hover:to-[#1b8f53] cursor-pointer border w-[25vh] flex justify-center p-3 bg-white shadow-md rounded-2xl' onClick={() => navigate('/entry')}>
+                        <p className=' '>
+                          Sign in to get started
+                        </p>
+                      </div>
+                    </div>
+                    
                 </div>
+                
               )
             }
            
@@ -103,7 +136,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </animated.div>
   );
 }
 

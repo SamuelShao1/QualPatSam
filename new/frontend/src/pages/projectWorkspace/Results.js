@@ -309,13 +309,13 @@ const Results = () => {
   }
 
   return (
-    <div className='w-screen h-screen'>
-      <div className='grid grid-cols-[3fr_2fr] gap-[2vh] py-[2vh] h-[1fr]'>
-        <div className='flex flex-col border rounded-xl p-[2vh]'>
-          <div className="overflow-auto flex-grow bg-white rounded-xl p-[1vh]">
+    <div className='w-full'>
+      <div className='grid grid-cols-[3fr_2fr] gap-[2vh] py-[2vh] '>
+        <div className='flex flex-col border shadow rounded-xl p-[2vh] '>
+          <div className="overflow-auto flex-grow bg-white rounded-xl p-[1vh] ">
             <h className="m-2 text-brand-300">Responses</h>
             {tablesData.map((table, index) => (
-              <div className='flex-col mb-2 rounded-xl shadow-sm border items-center' key={index}>
+              <div className='flex-col mb-2 rounded-xl shadow-sm border items-center ' key={index}>
                 
                 <Disclosure>
                     {({ open }) => (

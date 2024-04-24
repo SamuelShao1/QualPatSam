@@ -40,38 +40,59 @@ import VersionClip from '../../components/VersionClip.js';
 import { Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef } from 'react'
 import { ChevronDownIcon } from 'lucide-react';
+import { useSpring, animated } from 'react-spring';
+
 const ProjectMain = () => {
     const navigate = useNavigate();
 
+    const props = useSpring({
+      to: { opacity: 1 },
+      from: { opacity: 0 }
+    });
 
     return (
-    <div className="relative h-screen w-screen overflow-y-auto">
-      <ProjectBar className='relative z-50'/> 
-      <div className='relative z-10'>
-        <div className='pl-7 '>
-            <p className='text-brand-400'>
-                <EditableTitle defaultTitle={<span className='codeFont text-3xl bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
-                Untitled Project
-                </span>}></EditableTitle>
-            </p>
+      <animated.div style={props} className='w-full h-full overflow-hidden'>
+        <div className="grid grid-rows h-screen">
+          <div className='z-50 relative '>
+            <div className='absolute top-0 w-full'>
+              <ProjectBar className=''/> 
+            </div>
+          </div>
+
+          <div className="grid grid-rows-[36fr_0fr] overflow-auto">
+            {/*<div className='relative z-0  '>
+              <div className='pl-7 border-b shadow-md pb-2 '>
+                  <p className='text-brand-400 '>
+                      <EditableTitle className="" defaultTitle={<span className=' codeFont text-2xl bg-gradient-to-br from-[#1b8f53] via-[#4285f4] to-[#1b8f53] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'>
+                      Untitled Project
+                      </span>}></EditableTitle>
+                  </p>
+              </div>
+            </div> */}
+
+            <div className='relative flex-col px-7  z-0 w-full h-screen '>  {/* Project Pages */}
+              <div className='h-[10vh]'>
+              </div>
+              <div className='overflow-auto'>
+                <Routes className='relative z-0'>
+                  <Route path="/" element={<ProjectDash className=""/>} />
+                  <Route path="/newanalysis/*" element={<NewAnalysis />} />
+                  <Route path="/results" element={<Results />} />
+                  <Route path="/modelsandtraining" element={<ModelsTraining />} />
+                  <Route path="/uploads" element={<Uploads />} />
+                </Routes>
+              </div>
+              
+            </div>
+
+            <div className=''>
+              <VersionClip className=""/>
+            </div>
+          </div>
         </div>
         
+      </animated.div>
         
-        
-        <div className='relative flex px-7 z-0'>  {/* Project Pages */}
-          
-          <Routes className='relative z-0'>
-            <Route path="/" element={<ProjectDash className=""/>} />
-            <Route path="/newanalysis/*" element={<NewAnalysis />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="/modelsandtraining" element={<ModelsTraining />} />
-            <Route path="/uploads" element={<Uploads />} />
-          </Routes>
-        </div>
-        
-      </div>
-      <VersionClip />
-    </div>
 
     );
 }
