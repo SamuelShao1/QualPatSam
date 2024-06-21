@@ -15,6 +15,8 @@ export default {
 				'brand-400': '#dfe4ea',
         'brand-blue' : '#4285f4',
         'gradient-blue': 'linear-gradient(90deg, #4285f4 0%, #34a853 33%, #fbbc05 66%, #ea4335 100%)',
+		'brand-yellow1': '#e3ff73',
+				'brand-yellow2': '#dcff50',
 			},
 			keyframes: {
 				'background-pan': {

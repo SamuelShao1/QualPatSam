@@ -25,6 +25,29 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.animated-gradient {
+	background: linear-gradient(-45deg, black, black, #115182, #1f8a91, white, white);
+  backdrop-filter: blur(100px);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+  opacity:
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+
 .google-btn svg {
   margin-right: 10px;
 }

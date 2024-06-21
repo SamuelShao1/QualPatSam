@@ -4,7 +4,7 @@ from flask_cors import CORS, cross_origin
 from test_call import calling_functions
 import datetime
 import json
- 
+
 x = datetime.datetime.now()
  
 # Initializing flask app

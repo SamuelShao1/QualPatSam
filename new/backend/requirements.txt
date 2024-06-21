@@ -1,0 +1,4 @@
+Flask==2.2.2
+transformers==4.10.0  # specify the version if necessary
+numpy
+scipy

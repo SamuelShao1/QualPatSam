@@ -4,6 +4,8 @@ from transformers import AutoTokenizer, AutoConfig
 import numpy as np
 from scipy.special import softmax
 # Preprocess text (username and link placeholders)
+from flask import escape, jsonify, request
+
 
 def preprocess(text):
     new_text = []
@@ -11,45 +13,41 @@ def preprocess(text):
         t = '@user' if t.startswith('@') and len(t) > 1 else t
         t = 'http' if t.startswith('http') else t
         new_text.append(t)
+        
     return " ".join(new_text)
 
-def sentiment_analysis(text):
+def sentiment_analysis(request):
+    request_json = request.get_json(silent=True)
+    request_args = request.args
+
+    if request_json and 'text' in request_json:
+        text = request_json['text']
+    elif request_args and 'text' in request_args:
+        text = request_args['text']
+    else:
+        return 'No text provided', 400
+
     text = preprocess(text)
+    print(text)
     encoded_input = tokenizer(text, return_tensors='pt')
     output = model(**encoded_input)
     scores = output[0][0].detach().numpy()
     scores = softmax(scores)
 
-    # Create a list to store results
     results = {}
-
-    # Print labels and scores
-    ranking = np.argsort(scores)
-    ranking = ranking[::-1]
+    ranking = np.argsort(scores)[::-1]
     for i in range(scores.shape[0]):
         label = config.id2label[ranking[i]]
         score = scores[ranking[i]]
-        # getting rid of labels for simplification purposes when parsing for the frontend
-        # the labels always come out in the order of: neutral, negative, and positive
         result = np.round(float(score), 3)
         results[label] = result
 
-    # create list of results - correct order for table
-    print(results)
-    results_list = []
-    results_list.append(results.get("positive"))
-    results_list.append(results.get("neutral"))
-    results_list.append(results.get("negative"))
+    results_list = [results.get("positive"), results.get("neutral"), results.get("negative")]
     print(results_list)
-    return results_list
+    return jsonify(results_list)
 
-
-MODEL = f"lxyuan/distilbert-base-multilingual-cased-sentiments-student"
-tokenizer = AutoTokenizer.from_pretrained(MODEL)
-config = AutoConfig.from_pretrained(MODEL)
-# PT
-model = AutoModelForSequenceClassification.from_pretrained(MODEL)
-#model.save_pretrained(MODEL)
-
-# text = "Flu is speading fast, but covid is not spreading as fast!"
-# sentiment_analysis(text)
+# Model and tokenizer initialization
+MODEL = "lxyuan/distilbert-base-multilingual-cased-sentiments-student"
+tokenizer = AutoTokenizer.from_pretrained(MODEL, cache_dir='/tmp')
+config = AutoConfig.from_pretrained(MODEL, cache_dir='/tmp')
+model = AutoModelForSequenceClassification.from_pretrained(MODEL, cache_dir='/tmp')

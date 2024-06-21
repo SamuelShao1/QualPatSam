@@ -2,8 +2,17 @@ from transformers import AutoModelForSequenceClassification, TFAutoModelForSeque
 from transformers import AutoTokenizer
 import numpy as np
 from scipy.special import expit
+'''
+# The Cloud Functions for Firebase SDK to create Cloud Functions and set up triggers.
+from firebase_functions import firestore_fn, https_fn
 
-    
+# The Firebase Admin SDK to access Cloud Firestore.
+from firebase_admin import initialize_app, firestore
+import google.cloud.firestore
+
+app = initialize_app()
+'''
+
 MODEL = f"cardiffnlp/tweet-topic-21-multi"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 
