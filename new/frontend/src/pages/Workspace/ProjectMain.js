@@ -19,13 +19,13 @@ const ProjectMain = () => {
     });
 
     return (
-      <animated.div style={props} className='relative w-full  h-full overflow-hidden flex-col h-screen w-full overflow-hidden'>
+      <animated.div style={props} className='relative w-full overflow-hidden flex-col h-screen w-full overflow-hidden '>
        <div className="">
           
           <div className="absolute w-full h-full fixed top-0 grid grid-rows-[36fr_0fr] overflow-auto">
 
             <div className='relative flex-col z-0 w-full '>  {/* Project Pages */}
-              <div className='h-[15vh]'>
+              <div className='h-[10vh]'>
               </div>
               <div className='overflow-auto'>
                 <Routes className='relative z-0'>

@@ -48,7 +48,7 @@ const ProjectBar = () => {
     }, []);
     const items = [
       { path: null, label: OptionsMenu, icon: OptionsMenu },
-      { path: '', label: 'Dashboard', icon:<TooltipAnimate tooltipContent="Project Dashboard"><Home className='text-brand-300 w-4 h-4'/></TooltipAnimate> },
+      { path: '', label: 'Dashboard', icon:<TooltipAnimate tooltipContent="Project Dashboard"><Home className='w-4 h-4'/></TooltipAnimate> },
       { path: 'newanalysis', label: 'New Analysis', icon: <TooltipAnimate tooltipContent="New Analysis"><CirclePlus className='w-4 h-4' /></TooltipAnimate> },
       { path: 'modelsandtraining', label: 'Model', icon: <TooltipAnimate tooltipContent="Model"><BrainCircuit className='w-4 h-4' /></TooltipAnimate> },
       { path: 'uploads', label: 'Uploads', icon: <TooltipAnimate tooltipContent="Uploads"><FilePieChart className='w-4 h-4' /></TooltipAnimate> },

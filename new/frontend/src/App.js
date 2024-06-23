@@ -12,8 +12,15 @@ import History from './pages/General/History';
 import Settings from './pages/General/Settings';
 import About from './pages/General/About';
 import MinimumWidthWrapper from './wrappers/MinimumWidthWrapper';
+import { useState } from "react";
 
 const App = () => {
+  const [userId, setUserId] = useState(null);
+
+  const handleLogin = (id) => {
+      setUserId(id);
+  };
+
   return (
     <AuthProvider>
       <MinimumWidthWrapper minWidth={940}>
