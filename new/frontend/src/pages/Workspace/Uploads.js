@@ -95,7 +95,7 @@ const Uploads = () => {
                 <ul>
                   {uploads.map(upload => (
                     <li key={upload.id} className="">
-                      <div onClick={() => setSelectedCSV({ path: `/uploads/${userId}/${upload.fileName}`, name: upload.fileName })} className="hover:bg-blue-100 pt-2 p-1 flex justify-between items-center border-b border-b-1 text-sm text-gray-700 cursor-pointer">
+                      <div onClick={() => setSelectedCSV({path: `/uploads/${userId}/${upload.fileName}`, name: upload.fileName })} className="hover:bg-blue-100 pt-2 p-1 flex justify-between items-center border-b border-b-1 text-sm text-gray-700 cursor-pointer">
                         <div className="">
                           {upload.fileName}
                         </div>

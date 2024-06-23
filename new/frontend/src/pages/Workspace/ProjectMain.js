@@ -39,9 +39,7 @@ const ProjectMain = () => {
               
             </div>
 
-            <div className=''>
-              <VersionClip className=""/>
-            </div>
+            
           </div>
           <div className='absolute top-0 w-full'>
             <ProjectBar className=''/>

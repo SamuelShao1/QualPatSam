@@ -26,7 +26,6 @@ import EditableTitle from '../../../components/textEffects/EditableTitle.js'
 import OptionsMenu from './menus/OptionsMenu.js';
 import ShareMenu from './menus/ShareMenu.js';
 import SettingsMenu from './menus/SettingsMenu.js';
-
 const ProjectBar = () => {
 
     const navigate = useNavigate(); 

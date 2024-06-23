@@ -119,14 +119,7 @@ function Home() {
               )
             }
            
-            <div className='absolute bottom-0 left-0 right-0 flex justify-center'>
-              <p className='text-brand-300 text-sm rounded-xl bg-brand-200 px-2 -py-2 mb-2 bg-brand-100'> 
-                Version 3.1 Powered by Google
-                <a href="https://deepmind.google/technologies/gemini/#gemini-1.5" rel="noopener noreferrer" target="_blank" className='ml-1 bg-gradient-to-br from-[#4285f4] via-[#9b72cb] to-[#d96570] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]'> 
-                  Gemini 1.5
-                </a>  
-              </p>
-            </div>
+
           </div>
         </div>
       </animated.div>
@@ -553,6 +546,7 @@ export default function Main() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="open-project" element={<Home />} />
       <Route path="projectMain/*" element={<RequireAuth><ProjectMain /></RequireAuth>} />
       <Route path="construction" element={<RequireAuth><Construction /></RequireAuth>} />
       <Route path="entry/*" element={<Entry />} />

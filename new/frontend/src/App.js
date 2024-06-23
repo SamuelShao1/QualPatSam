@@ -13,7 +13,7 @@ import Settings from './pages/General/Settings';
 import About from './pages/General/About';
 import MinimumWidthWrapper from './wrappers/MinimumWidthWrapper';
 import { useState } from "react";
-
+import VersionClip from './components/common/VersionClip'
 const App = () => {
   const [userId, setUserId] = useState(null);
 
@@ -50,6 +50,7 @@ const App = () => {
             <Route path="/settings" element ={<Settings/>} />
             <Route path="/about" element ={<About/>} />
           </Routes>
+          <VersionClip className=""/>
         </Router>
       </MinimumWidthWrapper>  
     </AuthProvider>

@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-import {
-    Pencil,
-    Copy,
-    Archive,
-    Replace, 
-    Trash2,
-    EllipsisVertical,
-  } from 'lucide-react';
+import { getStorage, ref, getDownloadURL, getMetadata } from 'firebase/storage';
+import { Pencil, Copy, Trash2, Info, ChevronLeft, Download } from 'lucide-react';
+import InfoDisplay from './components/InfoDisplay';
 
 const CSVDisplay = ({ filePath, fileName, onBack }) => {
   const [csvData, setCsvData] = useState(null);
   const [error, setError] = useState(null);
+  const [metadata, setMetadata] = useState(null);
+  const [showMetadata, setShowMetadata] = useState(false);
+
+  const InfoDisplayItems = [
+    { icon: Pencil, label: 'Rename' },
+    { icon: Copy, label: 'Duplicate' },
+  ];
 
   useEffect(() => {
     const fetchCSV = async () => {
@@ -39,6 +40,10 @@ const CSVDisplay = ({ filePath, fileName, onBack }) => {
             setError(error.message);
           }
         });
+
+        // Fetch file metadata
+        const fileMetadata = await getMetadata(fileRef);
+        setMetadata(fileMetadata);
       } catch (err) {
         setError(err.message);
       }
@@ -77,18 +82,55 @@ const CSVDisplay = ({ filePath, fileName, onBack }) => {
     );
   };
 
+  const MetadataDisplay = ({ metadata }) => {
+    return (
+      <div className="mt-4 border shadow rounded-lg p-4 bg-gray-50">
+        <h3 className="mb-3 text-sm">File Info</h3>
+        <ul className='text-xs'>
+          <li className="mb-2">
+           Created: {new Date(metadata.timeCreated).toLocaleString()}
+          </li>
+          <li className="mb-2">
+            Size: {metadata.size} bytes
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
   return (
     <div>
-      <button onClick={onBack} className="border shadow text-brand-300 py-2 px-4 rounded-full text-sm">Back to Uploads</button>
-      <button className="ml-3 border shadow py-2 px-4 rounded-full text-sm">{fileName}</button>
-      <button className="ml-3 border shadow py-2 px-4 rounded-full text-sm"><Trash2 className='w-4 h-4'/></button>
+      <div className='flex'>
+        <button onClick={onBack} className="border shadow text-brand-300 py-2 px-4 rounded-full text-sm">
+          <ChevronLeft className='w-[1rem] h-[1rem]'/>
+        </button>
+        <div className='ml-4 flex text-brand-300'>
+          <span className="ml-3 border shadow py-1 px-4 rounded-full text-sm">{fileName}</span>
+          <button className="ml-3 border shadow py-1 px-4 rounded-full text-sm">
+            <Trash2 className='w-[1rem] h-[1rem]'/>
+          </button>
+          <button className="ml-3 border shadow py-1 px-4 rounded-full text-sm">
+            <Download className='w-[1rem] h-[1rem]'/>
+          </button>
+          <button 
+            className="ml-3 border shadow py-1 px-4 rounded-full text-sm"
+            onClick={() => setShowMetadata(!showMetadata)}
+          >
+            <Info className='w-[1rem]'/>
+          </button>
+        </div>
+      </div>
+
       {error ? (
         <div className="text-red-500">
           <p>Error: {error}</p>
         </div>
       ) : (
         <>
-          {renderCSVTable()}
+        {showMetadata && metadata && <MetadataDisplay metadata={metadata} />}
+        {renderCSVTable()}
+          
+
         </>
       )}
     </div>
